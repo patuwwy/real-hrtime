@@ -1,0 +1,30 @@
+{
+  "name": "real-hrtime",
+  "version": "0.1.0",
+  "author": "Patryk Falba",
+  "description": "Same as Date.now() but with nanoseconds.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/index.test.js"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "keywords": [
+    "hrtime",
+    "time",
+    "nanoseconds",
+    "bigint"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/patuwwy/real-hrtime/issues"
+  },
+  "dependencies": {
+    "bindings": "^1.5.0",
+    "node-addon-api": "^2.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^6.2.2"
+  }
+}
