@@ -1,4 +1,6 @@
-# realhrtime
+# real-hrtime
+
+currentyl only for Linux
 
 API
 ```
