@@ -1,1 +1,1 @@
-module.exports = { ...require('bindings')('realhrtime') };
+module.exports = { ...require('bindings')('real-hrtime') };
