@@ -7,7 +7,7 @@
       {
         "targets": [
           {
-            "target_name": "real-hrtime",
+            "target_name": "real-hrtime-linux",
             "cflags!": [ "-fno-exceptions" ],
             "cflags_cc!": [ "-fno-exceptions" ],
             "sources": [
