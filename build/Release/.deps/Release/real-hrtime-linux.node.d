@@ -1,0 +1,1 @@
+cmd_Release/real-hrtime-linux.node := ln -f "Release/obj.target/real-hrtime-linux.node" "Release/real-hrtime-linux.node" 2>/dev/null || (rm -rf "Release/real-hrtime-linux.node" && cp -af "Release/obj.target/real-hrtime-linux.node" "Release/real-hrtime-linux.node")
