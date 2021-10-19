@@ -1,6 +1,8 @@
 # real-hrtime
 
-currentyl only for Linux
+`Date.now(): BigInt` with nanoseconds
+
+currently only for Linux
 
 API
 ```
