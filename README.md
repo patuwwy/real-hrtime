@@ -2,7 +2,7 @@
 
 NodeJS module
 
-`Date.now(): BigInt` with nanoseconds
+`Date.now()` equivalent but with nanoseconds (BigInt)
 
 currently only for Linux
 
