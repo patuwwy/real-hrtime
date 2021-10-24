@@ -1,5 +1,7 @@
 # real-hrtime
 
+NodeJS module
+
 `Date.now(): BigInt` with nanoseconds
 
 currently only for Linux
