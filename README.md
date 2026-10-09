@@ -1,4 +1,4 @@
-# real-hrtime
+# @patu/real-hrtime
 
 Node.js native addon providing high-resolution real-world Unix time in nanoseconds as `BigInt` or `String`.
 
@@ -7,13 +7,13 @@ Cross-platform support for **Windows**, **macOS**, and **Linux** (x64, ia32, arm
 ## Installation
 
 ```bash
-npm install real-hrtime
+npm install @patu/real-hrtime
 ```
 
 ## API
 
 ```js
-const rht = require("real-hrtime");
+const rht = require("@patu/real-hrtime");
 
 // Returns BigInt with nanoseconds since Unix Epoch (1970-01-01 00:00:00 UTC)
 const ns = rht.bigint();

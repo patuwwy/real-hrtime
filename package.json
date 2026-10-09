@@ -1,5 +1,5 @@
 {
-  "name": "real-hrtime",
+  "name": "@patu/real-hrtime",
   "version": "0.2.0",
   "author": "Patryk Falba",
   "description": "Same as Date.now() but with nanoseconds.",
