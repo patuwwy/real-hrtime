@@ -1,35 +1,93 @@
-# This is a basic workflow to help you get started with Actions
+name: CI and Prebuilds
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the feature/initial branch
   push:
-    branches: [ test/ci ]
+    branches: [ master, main, release/* ]
+    tags:
+      - 'v*'
   pull_request:
-    branches: [ release/* ]
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches: [ master, main, release/* ]
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+  prebuild:
+    name: Prebuild on ${{ matrix.os }} (${{ matrix.arch }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Windows
+          - os: windows-latest
+            arch: x64
+            cmd: npm run prebuild
+          - os: windows-latest
+            arch: ia32
+            cmd: npm run prebuild-ia32
+          # macOS (Intel & Apple Silicon)
+          - os: macos-13
+            arch: x64
+            cmd: npm run prebuild
+          - os: macos-latest
+            arch: arm64
+            cmd: npm run prebuild
+          # Linux
+          - os: ubuntu-latest
+            arch: x64
+            cmd: npm run prebuild
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      # Runs a set of commands using the runners shell
-      - name: Build
-        run: |
-          npm ci
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-      - name: Test
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Build prebuild
+        run: ${{ matrix.cmd }}
+
+      - name: Run tests
+        run: npm test
+
+      - name: Upload prebuild artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: prebuild-${{ matrix.os }}-${{ matrix.arch }}
+          path: prebuilds/
+
+  release:
+    name: Publish to npm
+    needs: prebuild
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Download all prebuild artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: prebuilds-temp
+
+      - name: Organize prebuilds
         run: |
-          npm test
+          mkdir -p prebuilds
+          cp -r prebuilds-temp/*/* prebuilds/ || true
+          ls -la prebuilds/
+
+      - name: Publish package to npm
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

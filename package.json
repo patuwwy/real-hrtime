@@ -1,15 +1,18 @@
 {
   "name": "real-hrtime",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Patryk Falba",
   "description": "Same as Date.now() but with nanoseconds.",
   "main": "index.js",
   "scripts": {
     "test": "mocha test/index.test.js",
-    "install": "node-gyp-build"
+    "install": "node-gyp-build",
+    "prebuild": "prebuildify --napi --strip",
+    "prebuild-ia32": "prebuildify --napi --strip --arch=ia32 --target=20.18.0"
   },
   "repository": {
-    "type": "git"
+    "type": "git",
+    "url": "https://github.com/patuwwy/real-hrtime.git"
   },
   "keywords": [
     "hrtime",
@@ -22,10 +25,17 @@
     "url": "https://github.com/patuwwy/real-hrtime/issues"
   },
   "dependencies": {
-    "node-addon-api": "^2.0.0",
-    "node-gyp-build": "^4.3.0"
+    "node-addon-api": "^8.3.0",
+    "node-gyp-build": "^4.8.4"
   },
   "devDependencies": {
-    "mocha": "^6.2.2"
-  }
+    "mocha": "^10.8.2",
+    "prebuildify": "^6.0.1"
+  },
+  "files": [
+    "index.js",
+    "binding.gyp",
+    "src/",
+    "prebuilds/"
+  ]
 }

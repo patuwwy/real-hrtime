@@ -1,18 +1,12 @@
-#ifndef NAPI_EXPERIMENTAL
-    #define NAPI_EXPERIMENTAL 1;
-#endif
-
-#include <time.h>
 #include <napi.h>
-#include <stdio.h>
-#include <rht-linux.h>
+#include "rht.h"
 
 Napi::BigInt bigint(const Napi::CallbackInfo& info) {
-    return Napi::BigInt::New(info.Env(), _bigint());
+    return Napi::BigInt::New(info.Env(), get_real_hrtime());
 }
 
 Napi::String stringified(const Napi::CallbackInfo& info) {
-    return Napi::String::New(info.Env(), _stringified());
+    return Napi::String::New(info.Env(), get_real_hrtime_string());
 }
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
@@ -29,4 +23,4 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     return exports;
 }
 
-NODE_API_MODULE(realHRTime, Init)
+NODE_API_MODULE(real_hrtime, Init)

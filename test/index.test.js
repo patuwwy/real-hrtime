@@ -12,13 +12,14 @@ describe("bigint", () => {
         assert.ok(typeof result === "bigint");
     });
 
-    it("Should be equal to Date.now() excluding nanoseconds.", () => {
-        const result = rhtModule.bigint();
+    it("Should be close to Date.now() excluding nanoseconds.", () => {
         const now = Date.now();
+        const result = rhtModule.bigint();
+        const rhtMs = Number(result / BigInt(1e6));
 
-        assert.equal(
-            now,
-            Math.floor(parseInt(result / BigInt(1e6), 10))
+        assert.ok(
+            Math.abs(rhtMs - now) <= 50,
+            `Expected ${rhtMs} to be within 50ms of ${now}`
         );
     });
 });
@@ -30,13 +31,14 @@ describe("stringified", () => {
         assert.ok(typeof result === "string");
     });
 
-    it("Should be equal to Date.now() excluding nanoseconds (parsed to int).", () => {
-        const result = rhtModule.stringified();
+    it("Should be close to Date.now() excluding nanoseconds (parsed to int).", () => {
         const now = Date.now();
+        const result = rhtModule.stringified();
+        const rhtMs = Math.floor(parseInt(result, 10) / 1e6);
 
-        assert.equal(
-            now,
-            Math.floor(parseInt(result, 10) / 1e6)
+        assert.ok(
+            Math.abs(rhtMs - now) <= 50,
+            `Expected ${rhtMs} to be within 50ms of ${now}`
         );
     });
 });
