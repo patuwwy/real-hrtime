@@ -24,10 +24,7 @@ jobs:
           - os: windows-latest
             arch: ia32
             cmd: npm run prebuild-ia32
-          # macOS (Intel & Apple Silicon)
-          - os: macos-13
-            arch: x64
-            cmd: npm run prebuild
+          # macOS
           - os: macos-latest
             arch: arm64
             cmd: npm run prebuild
@@ -42,7 +39,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install dependencies
         run: npm ci --ignore-scripts
@@ -73,7 +70,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           registry-url: 'https://registry.npmjs.org'
 
       - name: Download all prebuild artifacts
